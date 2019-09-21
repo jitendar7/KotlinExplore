@@ -4,7 +4,7 @@ const val MAX_EXPERIENCE: Int = 5000
 
 fun main(args: Array<String>) {
 
-    val player = Player()
+    val player = Player("Madrigal",healthPoints=100,isBlessed=true,isImmortal=false)
     player.castFireball()
 
     val auraColor = player.auraColor()
