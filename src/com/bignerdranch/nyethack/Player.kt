@@ -3,9 +3,24 @@ package com.bignerdranch.nyethack
 import java.io.File
 
 class Player(
-    _name: String, var healthPoints: Int = 100,
+    _name: String, override var healthPoints: Int = 100,
     val isBlessed: Boolean, private val isImmortal: Boolean
-) {
+) : Fightable {
+
+    override val diceCount = 3
+    override val diceSides = 6
+    override val damageRoll: Int
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+
+    override fun attack(opponent: Fightable): Int {
+        val damageDealt = if (isBlessed) {
+            damageRoll * 2
+        } else {
+            damageRoll
+        }
+        opponent.healthPoints -= damageDealt
+        return damageDealt
+    }
 
     var name = _name
         get() = "${field.capitalize()} of $hometown"
@@ -14,23 +29,26 @@ class Player(
         }
 
     val hometown = lazy { selectHometown() }
+    var currentPosition = Coordinate(0, 0)
 
     private fun selectHometown() =
         File("data/towns.txt").readText()
             .split("\n").shuffled().first()
 
     init {
-        require(healthPoints>0,{
+        require(healthPoints > 0, {
             "healthPoints must be greater than zero."
         })
-        require(name.isNotBlank(),{
+        require(name.isNotBlank(), {
             "Player must have a name."
         })
     }
 
-    constructor(name: String) : this(name,
-        isBlessed = true, isImmortal = false) {
-        if(name.toLowerCase() == "kar")
+    constructor(name: String) : this(
+        name,
+        isBlessed = true, isImmortal = false
+    ) {
+        if (name.toLowerCase() == "kar")
             healthPoints = 40
     }
 
