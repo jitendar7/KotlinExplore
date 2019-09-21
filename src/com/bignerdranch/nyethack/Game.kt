@@ -10,6 +10,11 @@ fun main(args: Array<String>) {
     val auraColor = player.auraColor()
     val healthStatus = player.formatHealthStatus()
 
+    var currentRoom = TownSquare()
+    println(currentRoom.description())
+    println(currentRoom.load())
+
+    // Player status
     printPlayerStatus(auraColor, isBlessed = true)
 
     val race = "gnome"
